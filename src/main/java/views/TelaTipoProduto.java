@@ -5,6 +5,7 @@
 
 package views;
 
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.bean.TipoProduto;
 import model.dao.TipoProdutoDAO;
@@ -15,7 +16,7 @@ import model.dao.TipoProdutoDAO;
  */
 public class TelaTipoProduto extends javax.swing.JInternalFrame {
     // Criar um atributo para o tipo de produto (bean)
-    TipoProduto tp;
+    TipoProduto tp = null;
 
     /** Creates new form TelaTipoProduto */
     public TelaTipoProduto() {
@@ -72,8 +73,18 @@ public class TelaTipoProduto extends javax.swing.JInternalFrame {
         jLabel1.setText("Descrição");
 
         btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnCadastrar.setText("Cadastrar");
         btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
@@ -135,6 +146,11 @@ public class TelaTipoProduto extends javax.swing.JInternalFrame {
                 "ID", "Descrição"
             }
         ));
+        tblCadastrados.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCadastradosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblCadastrados);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -181,6 +197,44 @@ public class TelaTipoProduto extends javax.swing.JInternalFrame {
         limpar();
         preencherTabela();
     }//GEN-LAST:event_btnCadastrarActionPerformed
+
+    private void tblCadastradosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCadastradosMouseClicked
+        // TODO add your handling code here:
+        int linha = tblCadastrados.getSelectedRow();
+        String id = tblCadastrados.getValueAt(linha, 0).toString();
+        
+        if(linha != -1) {
+            TipoProdutoDAO dao = new TipoProdutoDAO();
+            tp = dao.read(Integer.parseInt(id));
+            
+            // Preencher os campos do formulário
+            txtDescricao.setText(tp.getDescricao());
+        }
+    }//GEN-LAST:event_tblCadastradosMouseClicked
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // TODO add your handling code here:
+        tp.setDescricao(txtDescricao.getText());
+        
+        TipoProdutoDAO dao = new TipoProdutoDAO();
+        dao.update(tp);
+        
+        limpar();
+        preencherTabela();
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        // Confirmar se realmente deseja excluir
+        if (tp != null) {
+            if (JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir este tipo de produto?") == JOptionPane.YES_OPTION) {
+                TipoProdutoDAO dao = new TipoProdutoDAO();
+                dao.destroy(tp);
+                
+                limpar();
+                preencherTabela();
+            }
+        }
+    }//GEN-LAST:event_btnExcluirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
