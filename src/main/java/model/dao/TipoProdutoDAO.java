@@ -43,7 +43,7 @@ public class TipoProdutoDAO {
         Connection con = Conexao.getConexao();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        ArrayList<TipoProduto> listaProdutos = new ArrayList();
+        ArrayList<TipoProduto> listaTiposProduto = new ArrayList();
         
         try {
             String query = "SELECT * FROM tipo_produto";
@@ -56,7 +56,7 @@ public class TipoProdutoDAO {
                 tp.setId(rs.getInt("id_tipo_produto"));
                 tp.setDescricao(rs.getString("descricao"));
                 
-                listaProdutos.add(tp);
+                listaTiposProduto.add(tp);
             }
         }
         catch(SQLException ex) {
@@ -66,7 +66,7 @@ public class TipoProdutoDAO {
             Conexao.fecharConexao(con, stmt, rs);
         }
         
-        return listaProdutos;
+        return listaTiposProduto;
     }
     
     // Traz um objeto específico a partir do id

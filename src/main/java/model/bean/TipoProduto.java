@@ -4,6 +4,8 @@
  */
 package model.bean;
 
+import java.util.Objects;
+
 /**
  *
  * @author gregory
@@ -32,5 +34,24 @@ public class TipoProduto {
     @Override
     public String toString() {
         return descricao;
+    }
+    
+    /* Os dois próximos métodos servem para poder comparar o tipo de produto de 
+       meuProduto (na TelaProduto) com os objetos de TipoProduto do combobox de TipoProduto */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        TipoProduto tp = (TipoProduto) obj;
+        return this.id == tp.id; // visto que id é um identificador único para o TipoProduto
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id); // Utiliza o mesmo campo de comparação
     }
 }

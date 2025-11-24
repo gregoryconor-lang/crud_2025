@@ -34,6 +34,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         menuArquivoSair = new javax.swing.JMenuItem();
         menuGerenciar = new javax.swing.JMenu();
         menuGerenciarTipoProduto = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -45,7 +46,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         );
         painelPrincipalLayout.setVerticalGroup(
             painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 390, Short.MAX_VALUE)
+            .addGap(0, 499, Short.MAX_VALUE)
         );
 
         menuArquivo.setText("Arquivo");
@@ -70,6 +71,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         menuGerenciar.add(menuGerenciarTipoProduto);
 
+        jMenuItem1.setText("Produto");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        menuGerenciar.add(jMenuItem1);
+
         jMenuBar1.add(menuGerenciar);
 
         setJMenuBar(jMenuBar1);
@@ -82,7 +91,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(painelPrincipal)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(painelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -99,6 +110,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
         painelPrincipal.add(tela);
         tela.setVisible(true);
     }//GEN-LAST:event_menuGerenciarTipoProdutoActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        TelaProduto tela = new TelaProduto();
+        painelPrincipal.add(tela);
+        tela.setVisible(true);                
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -127,6 +145,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenu menuArquivo;
     private javax.swing.JMenuItem menuArquivoSair;
     private javax.swing.JMenu menuGerenciar;
