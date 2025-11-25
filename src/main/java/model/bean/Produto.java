@@ -14,6 +14,7 @@ public class Produto {
     private double valorUnitario;
     private int quantidade;
     // Campo que realiza a associação com TipoProduto (fk)
+    private TipoProduto tipoProduto; // objeto de TipoProduto
 
     public int getId() {
         return id;
@@ -48,6 +49,13 @@ public class Produto {
     }
     
     // Getters e setter da associação com TipoProduto
+    public TipoProduto getTipoProduto() {
+        return tipoProduto;
+    }
+
+    public void setTipoProduto(TipoProduto tipoProduto) {
+        this.tipoProduto = tipoProduto;
+    }    
 
     @Override
     public String toString() {

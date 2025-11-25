@@ -7,7 +7,9 @@ package views;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.bean.Produto;
+import model.bean.TipoProduto;
 import model.dao.ProdutoDAO;
+import model.dao.TipoProdutoDAO;
 
 /**
  *
@@ -22,12 +24,16 @@ public class TelaProduto extends javax.swing.JInternalFrame {
     public TelaProduto() {
         initComponents();
         preencherTabela();
+        // Para preencher a lista de Tipos de Produto a partir do BD
+        preencherComboTipoProduto();
     }
     
     public void limpar() {
         txtDescricao.setText("");
         txtValorUnitario.setText("");
         txtQuantidade.setText("");
+        // Limpar a seleção do combobox de TipoProduto (seleciona o primeiro)
+        cmbTipoProduto.setSelectedIndex(0);
     }
     
     public void preencherTabela() {
@@ -40,8 +46,17 @@ public class TelaProduto extends javax.swing.JInternalFrame {
                 p.getId(),
                 p.getDescricao(),
                 p.getValorUnitario(),
-                p.getQuantidade()
+                p.getQuantidade(),
+                p.getTipoProduto() // Objeto completo de TipoProduto
             });
+        }
+    }
+    
+    public void preencherComboTipoProduto() {
+        TipoProdutoDAO dao = new TipoProdutoDAO();
+        
+        for(TipoProduto tp : dao.read()) {
+            cmbTipoProduto.addItem(tp);
         }
     }
 
@@ -66,6 +81,7 @@ public class TelaProduto extends javax.swing.JInternalFrame {
         btnEditar = new javax.swing.JButton();
         btnCadastrar = new javax.swing.JButton();
         btnLimpar = new javax.swing.JButton();
+        cmbTipoProduto = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCadastrados = new javax.swing.JTable();
 
@@ -125,31 +141,27 @@ public class TelaProduto extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtDescricao))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtQuantidade))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtValorUnitario))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnLimpar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCadastrar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEditar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnExcluir)))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtDescricao)
+                    .addComponent(txtQuantidade)
+                    .addComponent(txtValorUnitario)
+                    .addComponent(cmbTipoProduto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(181, Short.MAX_VALUE)
+                .addComponent(btnLimpar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCadastrar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEditar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnExcluir)
+                .addGap(6, 6, 6))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,7 +179,9 @@ public class TelaProduto extends javax.swing.JInternalFrame {
                     .addComponent(jLabel3)
                     .addComponent(txtQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(cmbTipoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnExcluir)
@@ -209,7 +223,7 @@ public class TelaProduto extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -231,7 +245,9 @@ public class TelaProduto extends javax.swing.JInternalFrame {
         meuProduto.setDescricao(txtDescricao.getText());
         meuProduto.setValorUnitario(Double.parseDouble(txtValorUnitario.getText()));
         meuProduto.setQuantidade(Integer.parseInt(txtQuantidade.getText()));
+        
         // Definição do objeto TipoProduto (associação)
+        meuProduto.setTipoProduto((TipoProduto) cmbTipoProduto.getSelectedItem());
         
         // Execução do create (DAO)
         ProdutoDAO dao = new ProdutoDAO();
@@ -256,6 +272,7 @@ public class TelaProduto extends javax.swing.JInternalFrame {
             txtDescricao.setText(meuProduto.getDescricao());
             txtValorUnitario.setText(String.valueOf(meuProduto.getValorUnitario()));
             txtQuantidade.setText(String.valueOf(meuProduto.getQuantidade()));
+            cmbTipoProduto.setSelectedItem(meuProduto.getTipoProduto());
         }
     }//GEN-LAST:event_tblCadastradosMouseClicked
 
@@ -264,6 +281,8 @@ public class TelaProduto extends javax.swing.JInternalFrame {
         meuProduto.setDescricao(txtDescricao.getText());
         meuProduto.setValorUnitario(Double.parseDouble(txtValorUnitario.getText()));
         meuProduto.setQuantidade(Integer.parseInt(txtQuantidade.getText()));
+        // Definir o valor da associação com TipoProduto
+        meuProduto.setTipoProduto((TipoProduto) cmbTipoProduto.getSelectedItem());
         
         // Executar o update (DAO)
         ProdutoDAO dao = new ProdutoDAO();
@@ -292,6 +311,7 @@ public class TelaProduto extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnLimpar;
+    private javax.swing.JComboBox<TipoProduto> cmbTipoProduto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

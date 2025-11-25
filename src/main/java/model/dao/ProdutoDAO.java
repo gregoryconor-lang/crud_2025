@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import model.bean.Produto;
+import model.bean.TipoProduto;
 
 /**
  *
@@ -23,12 +24,13 @@ public class ProdutoDAO {
         PreparedStatement stmt = null;
         
         try {
-            String query = "INSERT INTO produto(descricao, valor_unitario, quantidade) VALUES (?,?,?)";
+            String query = "INSERT INTO produto(descricao, valor_unitario, quantidade, id_tipo_produto) VALUES (?,?,?,?)";
             stmt = con.prepareStatement(query);
             stmt.setString(1, p.getDescricao());
             stmt.setDouble(2, p.getValorUnitario());
             stmt.setInt(3, p.getQuantidade());
             // Definição do valor do id de Produto (fk)
+            stmt.setInt(4, p.getTipoProduto().getId());
             
             // Executar a query
             stmt.executeUpdate();
@@ -55,12 +57,15 @@ public class ProdutoDAO {
             
             rs = stmt.executeQuery();
             
-            while(rs.next()) {
+            while(rs.next()) {                
                 Produto p = new Produto();
                 p.setId(rs.getInt("id_produto"));
                 p.setDescricao(rs.getString("descricao"));
                 p.setValorUnitario(rs.getDouble("valor_unitario"));
                 p.setQuantidade(rs.getInt("quantidade"));
+                // Associação com o TipoProduto
+                TipoProduto tp = new TipoProdutoDAO().read(rs.getInt("id_tipo_produto"));
+                p.setTipoProduto(tp);
                 
                 listaProdutos.add(p);
             }
@@ -95,6 +100,9 @@ public class ProdutoDAO {
                 p.setDescricao(rs.getString("descricao"));
                 p.setValorUnitario(rs.getDouble("valor_unitario"));
                 p.setQuantidade(rs.getInt("quantidade"));
+                // Associação com o TipoProduto
+                TipoProduto tp = new TipoProdutoDAO().read(rs.getInt("id_tipo_produto"));
+                p.setTipoProduto(tp);
                 
                 return p;
             }
@@ -115,13 +123,14 @@ public class ProdutoDAO {
         
         try {
             String query = "UPDATE produto "
-                    + "SET descricao = ?, valor_unitario = ?, quantidade = ?) "
+                    + "SET descricao = ?, valor_unitario = ?, quantidade = ?, id_tipo_produto = ? "
                     + "WHERE id_produto = ?";
             stmt = con.prepareStatement(query);
             stmt.setString(1, p.getDescricao());
             stmt.setDouble(2, p.getValorUnitario());
             stmt.setInt(3, p.getQuantidade());
             // Definição do valor do id de Produto (fk)
+            stmt.setInt(4, p.getTipoProduto().getId());
             
             stmt.setInt(5, p.getId());
             

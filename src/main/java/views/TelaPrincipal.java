@@ -34,7 +34,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         menuArquivoSair = new javax.swing.JMenuItem();
         menuGerenciar = new javax.swing.JMenu();
         menuGerenciarTipoProduto = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        menuGerenciarProduto = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -71,13 +71,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         menuGerenciar.add(menuGerenciarTipoProduto);
 
-        jMenuItem1.setText("Produto");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        menuGerenciarProduto.setText("Produto");
+        menuGerenciarProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                menuGerenciarProdutoActionPerformed(evt);
             }
         });
-        menuGerenciar.add(jMenuItem1);
+        menuGerenciar.add(menuGerenciarProduto);
 
         jMenuBar1.add(menuGerenciar);
 
@@ -111,12 +111,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
         tela.setVisible(true);
     }//GEN-LAST:event_menuGerenciarTipoProdutoActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void menuGerenciarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGerenciarProdutoActionPerformed
         // TODO add your handling code here:
         TelaProduto tela = new TelaProduto();
         painelPrincipal.add(tela);
         tela.setVisible(true);                
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_menuGerenciarProdutoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -145,10 +145,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenu menuArquivo;
     private javax.swing.JMenuItem menuArquivoSair;
     private javax.swing.JMenu menuGerenciar;
+    private javax.swing.JMenuItem menuGerenciarProduto;
     private javax.swing.JMenuItem menuGerenciarTipoProduto;
     private javax.swing.JDesktopPane painelPrincipal;
     // End of variables declaration//GEN-END:variables
